@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+  <head>
+    <meta charset="utf-8">
+    <title>Registration Page</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'user_app/css/main.css' %}" media="screen" title="Registration Page"  charset="utf-8">
+  </head>
+  <body>
+    <header>
+      <h3>Test App</h3>
+      <h4>Home</h4>
+      <a href="{% url 'sign_in' %}">Sign in</a>
+      <hr>
+    </header>
+    <h3>Register</h3>
+    <form action="{% url 'register' %}" method="post">
+      {% csrf_token %}
+      {{ register_form }}
+      <input class="green_button" type="submit" value="Register">
+    </form>
+    <a href="{% url 'sign_in' %}">Already have an account? Login</a>
+  </body>
+</html>
