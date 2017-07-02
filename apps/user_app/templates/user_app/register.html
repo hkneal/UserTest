@@ -13,12 +13,14 @@
       <a href="{% url 'sign_in' %}">Sign in</a>
       <hr>
     </header>
-    <h3>Register</h3>
-    <form action="{% url 'register' %}" method="post">
-      {% csrf_token %}
-      {{ register_form }}
-      <input class="green_button" type="submit" value="Register">
-    </form>
-    <a href="{% url 'sign_in' %}">Already have an account? Login</a>
+    <div class="signin">
+      <h3>Register</h3>
+      <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        {{ register_form }}
+        <input id="green_button" type="submit" value="Register">
+      </form>
+      <a href="{% url 'sign_in' %}">Already have an account? Login</a>
+    </div>
   </body>
 </html>

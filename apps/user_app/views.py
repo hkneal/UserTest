@@ -3,11 +3,23 @@ from django.http import HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from .models import UserName, Message, Comment
-from .forms import signin_form, register_form, update_info_form, change_password_form
+from .forms import signin_form, register_form, update_info_form, change_password_form, add_message_form, add_comment_form
 # Create your views here.
 
+def getMessageContext(pid, id):
+    user = UserName.objects.get(id=id)
+    person = UserName.objects.get(id=pid)
+    messages = Message.objects.filter(user=pid).order_by('-created_at')
+    context = {
+        'user' : user,
+        'person' : person,
+        'messages' : messages,
+        'add_message_form' : add_message_form(),
+        'add_comment_form' : add_comment_form(),
+        }
+    return context
+
 def getUserContext(id):
-    print "In method"
     user = UserName.objects.get(id=id)
     userlst = UserName.objects.all()
     context = {
@@ -96,6 +108,8 @@ def add_new(req, id):
                 'password' : form.cleaned_data['password']
                 }
             UserName.objects.register(postData)
+            print "admin_level:"
+            print user.admin_level
             if user.admin_level == 2:
                 return HttpResponsePermanentRedirect(reverse('dashboard_admin', args=(id,)))
             else:
@@ -193,6 +207,67 @@ def change_password(req, pid, id):
             'change_password_form': change_password_form()
             }
         return render(req, 'user_app/edit_user.html', context)
+
+def remove(req, pid, id):
+    thisUser = UserName.objects.get(id=pid).delete()
+    context = getUserContext(id)
+    return HttpResponsePermanentRedirect(reverse('dashboard_admin', args=(id,)))
+
+def user_page(req, pid, id):
+    context = getMessageContext(pid, id)
+    return render(req, 'user_app/user_page.html', context)
+
+def add_message(req, pid, id):
+    if req.method == 'POST':
+        form = add_message_form(req.POST)
+        if form.is_valid():
+            user = UserName.objects.get(id=pid)
+            Message.objects.create(
+                message = form.cleaned_data['message'],
+                user = user
+            )
+            context = getMessageContext(pid, id)
+            return render(req, 'user_app/user_page.html', context)
+        else:
+            user = UserName.objects.get(id=id)
+            person = UserName.objects.get(id=pid)
+            messages = Message.objects.filter(user=pid).order_by('-created_at')
+            context = {
+                'user' : user,
+                'person' : person,
+                'messages' : messages,
+                'add_message_form' : form,
+                'add_comment_form' : add_comment_form(),
+                }
+    else:
+        return redirect('/')
+
+def add_comment(req, pid, mid, id):
+    if req.method == 'POST':
+        form = add_comment_form(req.POST)
+        if form.is_valid():
+            thisUser = UserName.objects.get(id=id)
+            message = Message.objects.get(id=mid)
+            Comment.objects.create(
+                comment = form.cleaned_data['comment'],
+                message = message,
+                user = thisUser
+            )
+            context = getMessageContext(pid, id)
+            return render(req, 'user_app/user_page.html', context)
+        else:
+            user = UserName.objects.get(id=id)
+            person = UserName.objects.get(id=pid)
+            messages = Message.objects.filter(user=pid).order_by('-created_at')
+            context = {
+                'user' : user,
+                'person' : person,
+                'messages' : messages,
+                'add_message_form' : add_message_form(),
+                'add_comment_form' : form
+                }
+    else:
+        return redirect('/')
 
 def logoff(req):
     return redirect('/')

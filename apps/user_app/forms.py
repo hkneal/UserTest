@@ -21,10 +21,16 @@ ADMIN_CHOICES = [
     ('Admin', 'Admin'),
     ]
 
+class add_message_form(forms.Form):
+    message = forms.CharField(label="", widget=forms.Textarea(attrs={'rows': 4, 'cols': 80}), required=True)
+
+class add_comment_form(forms.Form):
+    comment = forms.CharField(label="", widget=forms.Textarea(attrs={'rows': 4, 'cols': 70}), initial='write a message', required=True)
+
 class change_password_form(forms.Form):
     password = forms.CharField(label='Password:', max_length=255, min_length=8, required=True, widget=forms.PasswordInput)
     confirm_password = forms.CharField(label='Confirm Password:', max_length=255, min_length=8, required=True, widget=forms.PasswordInput)
-    
+
     def clean_password(self):
         password = self.cleaned_data['password']
         if len(password) < 8:
@@ -51,9 +57,7 @@ class update_info_form(forms.Form):
 
     def clean_email(self):
         thisEmail = self.cleaned_data['email']
-        if UserName.objects.filter(email=thisEmail).exists():
-            raise ValidationError('Email already exists!')
-        elif not EMAIL_REGEX.match(thisEmail):
+        if not EMAIL_REGEX.match(thisEmail):
             raise ValidationError('Please enter a valid email address')
         return thisEmail
 
@@ -70,7 +74,7 @@ class update_info_form(forms.Form):
         return lastName
 
 class signin_form(forms.Form):
-    email = forms.EmailField(label='Email:', max_length=45, min_length=7, required=True, widget=forms.EmailInput)
+    email = forms.EmailField(label='Email Address:', max_length=45, min_length=7, required=True, widget=forms.EmailInput)
     password = forms.CharField(label='Password:', max_length=255, min_length=8, required=True, widget=forms.PasswordInput)
 
     def clean_email(self):

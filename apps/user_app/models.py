@@ -3,37 +3,6 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 import bcrypt
 
-class MessageManager(models.Manager):
-    def verify(self, postData):
-        if postData['title'] < 1:
-            return { 'error' : 'Title cannot be empty'}
-        else:
-            book = Book.objects.create(
-                title = postData['title'],
-                author = postData['author']
-            )
-            return {
-                'book' : book
-            }
-
-class CommentManager(models.Manager):
-    def verify(self, postData):
-        print "in ReviewManager"
-        if postData['review'] < 1:
-            return { 'error' : 'Review cannot be empty'}
-        else:
-            print "creating Review"
-            review = Review.objects.create(
-                review = postData['review'],
-                book = postData['book'],
-                user = postData['user'],
-                rating_whole = postData['rating_whole'],
-                rating_remainder = postData['rating_remainder']
-            )
-            return {
-                'review' : review
-            }
-
 class UserManager(models.Manager):
     def register(self, postData):
         password = postData['password']
@@ -95,6 +64,7 @@ class UserName(models.Model):
     email = models.CharField(max_length=45)
     password = models.CharField(max_length=255)
     admin_level = models.PositiveIntegerField(validators=[MaxValueValidator(2),], default=1)
+    description = models.CharField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
@@ -104,7 +74,6 @@ class Message(models.Model):
     user = models.ForeignKey(UserName, related_name="users")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    objects = MessageManager()
 
 class Comment(models.Model):
     comment = models.TextField(max_length=1000)
@@ -112,4 +81,3 @@ class Comment(models.Model):
     user = models.ForeignKey(UserName, related_name="comments")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    objects = CommentManager()

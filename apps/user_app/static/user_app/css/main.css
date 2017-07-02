@@ -3,10 +3,22 @@
   margin: 0px;
   padding: 0px;
 }
-.info{
+header h3, header h4{
   display: inline-block;
-  width: 200px;
   margin: 20px;
+  width: 100px;
+  margin-left: 80px;
+  vertical-align: bottom;
+}
+header a{
+  vertical-align: middle;
+  text-align: right;
+  color: inherit;
+  color: blue;
+  text-decoration: none;
+  margin: 20px;
+  margin-left: calc(58% - 220px);
+  display: inline-block;
 }
 a{
   margin: 10px;
@@ -16,4 +28,157 @@ a{
   color: inherit;
   color: blue;
   text-decoration: underline;
+}
+h1, p, h4, h2{
+  margin: 20px;
+  font-family: sans-serif;
+}
+.infoFirst{
+  display: inline-block;
+  width: 260px;
+  margin: 20px;
+  margin-left: 80px;
+  vertical-align: top;
+}
+.info{
+  display: inline-block;
+  width: 260px;
+  margin: 20px;
+  vertical-align: top;
+}
+.welcome{
+  margin: 20px;
+  margin-left: 80px;
+  background-color: #D8D8D8;
+  border: 3px solid lightgrey;
+  width: 65%;
+  height: 300px;
+}
+.welcome h3{
+  margin: 20px;
+  font-family: sans-serif;
+}
+.blue_button{
+  margin: 20px;
+  background-color: #2E64FE;
+  border: 3px solid #000;
+  box-shadow: 2px 2px black;
+  color: white;
+  padding: 5px;
+  font-size: 10pt;
+}
+#table_blue_button{
+  margin: 20px;
+  margin-left: 600px;
+  background-color: #2E64FE;
+  border: 3px solid #000;
+  box-shadow: 2px 2px black;
+  color: white;
+  padding: 5px;
+  font-size: 10pt;
+}
+#green_button{
+  margin: 20px;
+  background-color: #04B404;
+  border: 3px solid #000;
+  box-shadow: 2px 2px black;
+  color: white;
+  padding: 5px;
+  font-size: 10pt;
+  margin-left: calc(100% - 80px);
+  width: 80px;
+  font-family: sans-serif;
+}
+.signin{
+  margin: 20px;
+  margin-left: 80px;
+  width: 300px;
+}
+.table{
+  margin: 20px;
+  margin-left: 80px;
+  width: 945px;
+}
+.userPages{
+  margin: 20px;
+  margin-left: 60px;
+  width: 519px;
+}
+.userPages input, textarea{
+  display: block;
+  margin: 20px;
+  margin-top: 5px;
+}
+.table h4, .tableForm{
+  display: inline-block;
+}
+.signin h3{
+  margin: 20px;
+}
+.signin label{
+  display: block;
+  width: 150px;
+}
+.signin input{
+  display: block;
+  width: 300px;
+  margin: 5px;
+  margin-left: 0px;
+}
+.whoWrote{
+  display: inline-block;
+  margin-bottom: 0px;
+  width: 250px;
+}
+.whoWroteComment{
+  display: inline-block;
+  margin-left: 80px;
+  margin-bottom: 0px;
+  width: 200px;
+}
+.whenWrote{
+  text-align: right;
+  display: inline-block;
+  margin-bottom: 0px;
+  width: 200px;
+  font-style: italic;
+  font-size: 9pt;
+  text-align: right;
+  margin-right: 0px;
+}
+.whenWroteComment{
+  display: inline-block;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  font-style: italic;
+  font-size: 9pt;
+  width: 192px;
+  text-align: right;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 95%;
+    margin: 20px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+td, th {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+#id_comment{
+  margin-left: 80px;
+  margin-top: 5px;
+}
+#whoWrote{
+  margin-left: 0px;
+  margin-bottom: 0px;
 }

@@ -19,7 +19,7 @@
       {% csrf_token %}
       <input class="blue_button" type="submit" value="Return to Dashboard">
     </form>
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'add_new' user.id %}" method="post">
       {% csrf_token %}
       {{ register_form }}
       <input class="green_button" type="submit" value="Create">

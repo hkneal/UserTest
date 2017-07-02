@@ -14,41 +14,43 @@
       <a href="{% url 'log_off' %}">Log off</a>
       <hr>
     </header>
-    {% if user.admin_level == 2 %}
-      <h4>Manage Users</h4>
-      <form action="{% url 'add_new' user.id %}" method="get">
-        <input class="blue_button" type="submit" value="Add new">
-      </form>
-    {% else %}
-      <h4>All Users</h4>
-    {% endif %}
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Create_at</th>
-        <th>User_level</th>
-        {% if user.admin_level == 2 %}
-          <th>Actions</th>
-        {% endif %}
-      </tr>
-      {% for person in userlst %}
+    <div class="table">
+      {% if user.admin_level == 2 %}
+        <h4>Manage Users</h4>
+        <form class='tableForm' action="{% url 'add_new' user.id %}" method="get">
+          <input id="table_blue_button" type="submit" value="Add new">
+        </form>
+      {% else %}
+        <h4>All Users</h4>
+      {% endif %}
+      <table>
         <tr>
-          <td>{{ person.id }}</td>
-          <td><a href="/">{{ person.first_name}} {{person.last_name}}</a></td>
-          <td>{{ person.email }}</td>
-          <td>{{ person.created_at}}</td>
-          {% if person.admin_level == 2 %}
-            <td>admin</td>
-          {% else %}
-            <td>normal</td>
-          {% endif %}
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Created_at</th>
+          <th>User_level</th>
           {% if user.admin_level == 2 %}
-            <td><a href="{% url 'edit_user' person.id user.id %}">edit</a> <a href="#">remove</a></td>
+            <th>Actions</th>
           {% endif %}
         </tr>
-      {% endfor %}
-    </table>
+        {% for person in userlst %}
+          <tr>
+            <td>{{ person.id }}</td>
+            <td><a href="{% url 'user_page' person.id user.id %}">{{ person.first_name}} {{person.last_name}}</a></td>
+            <td>{{ person.email }}</td>
+            <td>{{ person.created_at}}</td>
+            {% if person.admin_level == 2 %}
+              <td>admin</td>
+            {% else %}
+              <td>normal</td>
+            {% endif %}
+            {% if user.admin_level == 2 %}
+              <td><a href="{% url 'edit_user' person.id user.id %}">edit</a> <a href="{% url 'remove' person.id user.id %}">remove</a></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
   </body>
 </html>

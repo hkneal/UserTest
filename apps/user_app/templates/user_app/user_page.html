@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+  <head>
+    <meta charset="utf-8">
+    <title>User Information</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'user_app/css/main.css' %}" media="screen" title="user info"  charset="utf-8">
+  </head>
+  <body>
+    <header>
+      <h3>Test App</h3>
+      <h4>DashBoard</h4>
+      <h4>Profile</h4>
+      <a href="{% url 'log_off' %}">Log off</a>
+      <hr>
+    </header>
+    <div class="userPages">
+      <h2>{{ person.first_name }} {{ person.last_name }}</h2>
+      <p>Registered at: {{ person.created_at }}</p>
+      <p>User ID: {{ person.id }}</p>
+      <p>Email address: {{ person.email }}</p>
+      <p>Description: {{ peson.description }}</p>
+      <h4>Leave a message for {{ person.first_name }}</h4>
+      <form action="{% url 'add_message' person.id user.id %}" method="post">
+        {% csrf_token %}
+        {{ add_message_form }}
+        <input id="green_button" type="submit" value="Post">
+      </form>
+      {% for message in messages|slice:":3" %}
+        <p class='whoWrote'><a id='whoWrote' href="{% url 'user_page' person.id user.id %}">{{ message.user.first_name }} {{ message.user.last_name }}</a> Wrote</p>
+        <p class='whenWrote'>{{ message.created_at|timesince }} ago</p>
+        <textarea name="message" rows="4" cols="80">{{ message.message }}</textarea>
+        {% for comment in message.message_commentss.all %}
+          <p class='whoWroteComment'><a id='whoWrote' href="{% url 'user_page' person.id user.id %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> Wrote</p>
+          <p class='whenWroteComment'>{{ comment.created_at|timesince }} ago</p>
+          <textarea id="id_comment" name="message" rows="4" cols="70">{{ comment.comment }}</textarea>
+        {% endfor %}
+        <form action="{% url 'add_comment' person.id message.id user.id %}" method="post">
+          {% csrf_token %}
+          {{ add_comment_form }}
+          <input id="green_button" type="submit" value="Post">
+        </form>
+      {% endfor %}
+      <form action="{% url 'dashboard_admin' user.id %}" method="get">
+        <input class="blue_button" type="submit" value="Return to Dashboard">
+      </form>
+    </div>
+  </body>
+</html>
